@@ -1,12 +1,21 @@
 #include <stdio.h>
+#define IN 1
+#define OUT 0
 int main(){
-  int count, c;
-  count = 0;
+  int nw, c, state;
+  nw = 0;
+  state = OUT;
   c = getchar();
   while (c!= EOF){
-    if (c ==' ') count = count + 1; /*this program only counts words in a line where two consecutive words are apart one tab*/
-    c = getchar();
+    if (c ==' '|| c == '\t' || c == '\n') {
+      state = OUT;
+      }
+      else if (state == OUT) {
+        state = IN;
+        nw = nw +1;
+      } 
+      c = getchar();
   }
-  printf("\nNumber of words :%d\n", count);
+  printf("\nNumber of words :%d\n", nw);
   return 0;
 }
