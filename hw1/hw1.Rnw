@@ -1,0 +1,123 @@
+\documentclass{article}
+\usepackage[margin=0.5in]{geometry}
+\begin{document}
+\title{\color{red}HW1 - STAT 580 - Sp 2015}
+\author{Yet T Nguyen}
+\date{01/29/2015}
+\maketitle
+
+\section*{1.}
+Similar to slide set 1 p.28, write a C program that prints the correspondence table of Fahrenheit tem-
+peratures and their Celsius equivalents using
+C = (5/9)(F - 32).
+Instead of specifying the step size, the program should allow the user to specify the number of rows
+(through a symbolic constant). For instance, if the number of rows is 11 with lower and upper limts
+set as 0 and 200, the rows of the table should correspond to 0F, 20F, 40F, 60F, 80F, 100F, 120F, 140F,
+160F, 180F, 200F. Note that the program should allow any (reasonable) positive number of rows (and
+so the corresponding Fahrenheit temperatures may not be integer).
+\begin{verbatim}
+#include <stdio.h>
+#define lower 0.0 /* this is a float variable */
+#define upper 200.0 
+#define nrow 201 /* This can be changed*/
+int main() {
+  double f, c, step;
+  step = (upper - lower)/nrow; // 
+  f = lower; 
+  printf("F\t C\n");
+  while (f <= upper){
+    c = 5*(f - 32)/9;
+    printf("%.2f \t %.2f\n", f, c);
+    f = f + step;
+  }
+  return 1;
+}
+\end{verbatim}
+
+
+\section*{2.}
+Similar to slide set 1 p.32, write a program that prints only the numeric input. Say, if the input is 'I am
+1not2 n34umber', the program should print '1234'.
+
+\begin{verbatim}
+#include<stdio.h>
+int main(){
+ int c;
+ c = getchar();
+ while (c != EOF){
+ if ((c>='0') && (c<= '9')) putchar(c);
+ c = getchar();
+ }
+ return 0;
+}
+\end{verbatim}
+
+\section*{3.}
+* Similar to slide set 1 p.32, write a program that shifts the lower case English characters by 2 characters.
+That means: “a” to “c”, “b” to “d”, ..., “x” to ”z”. Keep “y” and “z” unchanged. For instance, if the
+input is ”amppcar ABC 123z”, the program should print ”correct ABC 123z”.
+
+\begin{verbatim}
+#include<stdio.h>
+int main(){
+  int c;
+  c = getchar();
+  while(c!=EOF){
+    if ((c>='97') && (c <= '120')) c = c + 2;
+    putchar(c);
+    c = getchar();
+  }
+  return 0;
+}
+\end{verbatim}
+
+
+
+\section*{4.}
+Similar to slide set 1 p.33, write a program that counts the number of words.
+
+\begin{verbatim}
+#include <stdio.h>
+#define IN 1
+#define OUT 0
+int main(){
+  int nw, c, state;
+  nw = 0;
+  state = OUT;
+  c = getchar();
+  while (c!= EOF){
+    if (c ==' '|| c == '\t' || c == '\n') {
+      state = OUT;
+      }
+      else if (state == OUT) {
+        state = IN;
+        nw = nw +1;
+      } 
+      c = getchar();
+  }
+  printf("\nNumber of words :%d\n", nw);
+  return 0;
+}
+\end{verbatim}
+
+
+\section*{5.}
+\begin{verbatim}
+#include<stdio.h>
+int main(){
+  int i, j, c;
+  double a, b;
+  a =  1+2/5.0;
+  printf ("%f\n",a); /*1.400000*/
+  b = 1/2 + 3.0/4.0;
+  printf ("%f\n",b); /*0.750000*/
+  c = 3 < 10 && 2 * 8 < 2;
+  printf("%d\n", c); /* 0 */
+  i = 0;
+  j = 2;
+  j+=i++;
+  printf("i = %d, j = %d\n", i, j); /* i = 1, j = 2*/
+  return 0;
+}
+\end{verbatim}
+\end{document}
