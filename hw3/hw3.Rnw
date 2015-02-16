@@ -1,0 +1,88 @@
+\documentclass{article}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{boxedminipage}
+\usepackage{amsfonts}
+\usepackage{amsmath} 
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{t1enc}
+\usepackage{subfig}
+\usepackage{hyperref}
+\begin{document}
+\title{\color{red}HW3 - STAT 580 - Sp 2015}
+\author{Yet T Nguyen}
+\date{02/26/2015}
+\maketitle
+
+\section*{1.}
+\begin{itemize}
+\item [(a)] 
+\begin{align*}
+P(U \leq r(X)) & = \int_\mathbb{X} \left(\int_0^{r(x)} du\right) g(x) dx\\
+               & = \int_\mathbb{X} r(x)g(x)dx\\
+               & = \int_\mathbb{X}\frac{q(x)}{\alpha g(x)}g(x) dx \\
+               & = \frac{1}{\alpha}\int_\mathbb{X}q(x)dx.
+\end{align*}
+
+
+\item [(b)] 
+\begin{align*}
+P(X\in A, U \leq r(X)) & = \int_{A} \left(\int_0^{r(x)} du\right) g(x) dx\\
+               & = \int_{A} r(x)g(x)dx\\
+               & = \int_{A}\frac{q(x)}{\alpha g(x)}g(x) dx \\
+               & = \frac{1}{\alpha}\int_{A}q(x)dx.
+\end{align*}
+
+Therefore, 
+
+\begin{align*}
+P(Y\in  A) &= P(X\in A|U\leq r(X)) \\
+           &= \frac{P(X\in A, U \leq r(X))}{P(U \leq r(X))}\\
+           &=\frac{\frac{1}{\alpha}\int_{A}q(x)dx}{\frac{1}{\alpha}\int_\mathbb{X}q(x)dx}\\
+           &=\frac{\frac{1}{\alpha}\int_{A}cq(x)dx}{\frac{1}{\alpha}\int_\mathbb{X}cq(x)dx}\\ 
+           &=\frac{\frac{1}{\alpha}\int_{A}f(x)dx}{\frac{1}{\alpha}\int_\mathbb{X}f(x)dx}\\ 
+           &=\int_A f(x)dx \quad (\mbox{since } \int_\mathbb{X}f(x)dx = 1)
+\end{align*}
+\end{itemize}
+\section*{2.}
+\begin{itemize}
+\item[(a)] Let $g(x) = c(2x^{\theta -1} e^{-x} + x^{\theta - 1/2} e^{-x})$. Then 
+\begin{align}
+g(x) & = c\left(2\Gamma(\theta) frac{1}{\Gamma(\theta)}e^{\theta - 1} e^{-x} + \Gamma(\theta + 1/2) \frac{1}{\Gamma(\theta + 1/2)} e^{\theta -1/2}e^{-x}  \right)\notag\\
+     & = c(2\Gamma(\theta) \mbox{Gamma}(\theta, 1) + \Gamma(\theta +1/2) \mbox{Gamma}(\theta +1/2, 1)). \label{eq1}
+\end{align} 
+Since $\int  g dx = 1$, hence 
+\begin{equation}\label{eq2}
+c = \frac{1}{2\Gamma(\theta) + \Gamma(\theta + 1/2)}.
+\end{equation}
+\item[(b)] and from \eqref{eq1}, $g$ is the mixture of 2 Gamma distribution  $\mbox{Gamma}(\theta, 1)$ and $\mbox{Gamma}(\theta +1/2, 1)$ with the corresponding weights 
+
+\[
+\frac{2\Gamma(\theta)}{2\Gamma(\theta) + \Gamma(\theta + 1/2)}, \quad \frac{\Gamma(\theta+1/2)}{2\Gamma(\theta) + \Gamma(\theta + 1/2)}
+\]
+
+\item[(c)] A procedure to sample from $g(x)$: 
+\begin{itemize}
+\item[1.] Generate $U \sim \mbox{Unif}(0,1), X_1 \sim \mbox{Gamma}(\theta, 1), X_2 \sim \mbox{Gamma}(\theta+1/2, 1)$ independently, where a procedure to sample from any $\mbox{Gamma}(., 1)$ distribution can be conducted using a rejection sampling procedure following from Theorem 3.3 (page 29 in the link and page 406 in the  book) \href{http://www.nrbook.com/devroye/Devroye_files/chapter_nine.pdf}{http://www.nrbook.com/devroye/Devroye\_files/chapter\_nine.pdf}    
+\item[2.] If $U \leq \frac{2\Gamma(\theta)}{2\Gamma(\theta) + \Gamma(\theta + 1/2)}$ then $X = X_1$, otherwise, $X = X_2$
+\item[3.]  The random variable $X$ has distribution $g(x)$.
+\end{itemize}
+
+\item [(d)] Sampling a random variable having distribution $f$ using $g$ as proposed distribution. 
+It is easy to see 
+\[
+\sqrt{4+ x} \leq 2 + x^{1/2},
+\]
+hence
+\begin{equation}\label{eq3}
+q(x) \equiv \sqrt{4+x} x^{\theta -1} e^{-x} \leq (2+ x^{1/2}) x^{\theta-1} e^{-x }
+\leq \frac{1}{c} g(x),
+\end{equation}
+where $c$ is defined as in \eqref{eq2}.
+\begin{itemize}
+\item[1.] Generate $X \sim g(x)$ as in part $(c)$, and generate $U \sim \mbox{Unif}(0,1)$ independently. Set $r(x) = \frac{c q(x)}{g(x)}$, where $q$ is defined as in \eqref{eq3}. 
+\item[2.] If $U \leq r(X)$, then accept $X$, otherwise, repeat step 1.
+\end{itemize} 
+\end{itemize}
+\end{document}
