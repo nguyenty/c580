@@ -165,4 +165,46 @@ return 0;
 /* gcc -pedantic -Wall -ansi  hw33.c -llapack -lblas -lgfortran */
 /* 26.851352  0.240842  0.119026*/
 \end{verbatim}
+
+\section*{4.}
+(a) and (b)
+\begin{verbatim}
+#include <stdio.h>
+#define N 10 
+int main()
+{
+  int c, d;
+  double x[N] = {3.1, -1.2, 5.3, 1, 4.4, 21, 3, 7, -1.2, 3.2};
+  double t;
+  for (c = 1 ; c <= N - 1; c++) {
+    d = c;
+ 
+    while ( d > 0 && x[d] < x[d-1]) {
+      t          = x[d];
+      x[d]   = x[d-1];
+      x[d-1] = t;
+ 
+      d--;
+    }
+  }
+ 
+  printf("Sorted data:\n");
+ 
+  for (c = 0; c <= N - 1; c++) {
+    printf("%f ", x[c]);
+  }
+ printf("\n\nMedian of x is %f \n", (x[N/2-1] + x[N/2])/2);
+  return 0;
+}
+/*gcc -pedantic -Wall -ansi  hw34.c -llapack -lblas -lgfortran */
+\end{verbatim}
+
+Output 
+\begin{verbatim}
+Sorted data:
+-1.200000 -1.200000 1.000000 3.000000 3.100000 3.200000 4.400000 5.300000 7.000000 21.000000 
+
+Median of x is 3.150000 
+
+\end{verbatim}
 \end{document}
