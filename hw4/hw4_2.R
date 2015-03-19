@@ -62,3 +62,34 @@ iss(1.5,10)
 
 
 #4. 
+#(a)
+n <- 1500
+u <- runif(n, 0, 1)
+hu <- 1/(u+1)
+Ihat <- mean(hu)
+
+#sum((hu-Ihat)^2)/(n*(n-1))
+
+#(b)
+ecu <- 3/2
+cu <- (u+1)
+mcu <- mean(cu)
+hu <- 1/(u+1)
+
+b <- (1-log(2)*(1+1/2))/(1/12)
+
+Icv <- mean(hu) - b*(mcu - ecu)
+Icv
+#(c)
+Ihat
+Icv
+vIhat <- var(hu)/n
+vIhat
+rho2 <- abs((1-log(2)*(1+1/2)))/sqrt((1/12)*(1/2-(log(2))^2))
+vIcv <- vIhat*(1-rho2)
+# the variance of Icv less than that of Ihat 98.4%
+
+#(d)
+If we can chose the another function of x, i.e., g(x), such that correlation coefficient of 
+g(x) and h(x) is larger than that one of the previous part, then we can obtain a new
+Icv_g which has smaller variance comparing to the Icv above
