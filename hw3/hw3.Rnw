@@ -14,7 +14,6 @@
 \author{Yet T Nguyen}
 \date{02/26/2015}
 \maketitle
-
 \section*{1.}
 \begin{itemize}
 \item [(a)] 

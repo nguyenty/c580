@@ -1,0 +1,23 @@
+\documentclass{article}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{boxedminipage}
+\usepackage{amsfonts}
+\usepackage{amsmath} 
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{t1enc}
+\usepackage{subfig}
+\usepackage{hyperref}
+\begin{document}
+\title{\color{red}HW5 - STAT 580 - Sp 2015}
+\author{Yet T Nguyen}
+\date{03/26/2015}
+\maketitle
+\section*{1.}
+\begin{itemize}
+\item[(c)] 
+<<>>=
+@
+\end{itemize}
+\end{document}
