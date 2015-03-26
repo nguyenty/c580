@@ -65,11 +65,38 @@ mh <- function(a, b){
     i <- i+1
     if (i == 10000) break
   }
-  print(hist( x, nclass = 100, prob = T))
-  c(mx = mean(x), m1x = mean(1/x))
+  hist( x, nclass = 100, prob = T)
+  c(mx = mean(x), m1x = mean(1/x)) - #2. 
+    theta1 <- 1.5
+  theta2 <- 2
+  
+  f <- function(z, theta1 = 1.5, theta2 = 2){
+    z^(-3/2)*exp(-theta1*z-theta2/z +2*sqrt(theta1*theta2) + log(sqrt(2*theta2)))
+  }
+  
+  mh <- function(a, b){
+    i <- 1
+    x <- NULL
+    x[1] <- 1
+    repeat{
+      y <- rgamma(1, a, b)
+      gy <-dgamma(y, a, b) 
+      r <- f(y)*dgamma(x[i], a, b)/(f(x[i])*dgamma(y, a, b))
+      u <- runif(1,0,1)
+      x[i+1] <- ifelse(u <r, y, x[i])
+      i <- i+1
+      if (i == 10000) break
+    }
+    hist( x, nclass = 100, prob = T)
+    abs(c(mx.diff = mean(x), m1x.diff = mean(1/x))-c(mz = sqrt(theta2/theta1), 
+                                       m1z=sqrt(theta1/theta2) + 1/(2*theta2)))
+  }
+  
+  mh(1,.1)
+  
+  c(mz = sqrt(theta2/theta1), 
+    m1z=sqrt(theta1/theta2) + 1/(2*theta2))
+  
 }
 
-mh(1,.1)
-
-c(mz = sqrt(theta2/theta1), 
-  m1z=sqrt(theta1/theta2) + 1/(2*theta2))
+mh(1,1)
