@@ -35,8 +35,6 @@ plot(theta, dll, type = "l", main = "Log Like Function",
 #1.d)
 # the Newton Raphson method
 nr <- function(dl, d2l, theta0, eps,...){
-  dl0 <- dl(theta = theta0, ...)
-  d2l0 <- d2l(theta, ...)
   cnt <- 0
   repeat{
     cnt <- cnt +1
@@ -54,6 +52,11 @@ nr <- function(dl, d2l, theta0, eps,...){
                   "dl = ", abs(dl(theta1, ...))))
       break
     } 
+    print(paste("iter = ", cnt, "theta0 = ", theta0,
+                "theta1 = ", theta1,
+                "err = ", abs(theta0-theta1)/(abs(theta1)+0.000001),
+                "dl = ", abs(dl(theta1, ...))))
+    
     theta0 <- theta1
     
   }
@@ -112,3 +115,59 @@ thetaseq <- seq(-pi, pi, length = 1000)
 library("plyr")
 ff <- laply(1:length(thetaseq), function(i)f(thetaseq[i], x))
 plot(thetaseq, ff, type = "l")
+
+dff <- laply(1:length(thetaseq), function(i)df(thetaseq[i], x))
+plot(thetaseq, dff, type = "l")
+
+# 2b) moment estimate of theta
+theta0 <- asin(mean(x)- pi)
+
+# 2c)
+
+nr <- function(df, d2f, theta0, eps,...){
+  dl0 <- dl(theta = theta0, ...)
+  d2l0 <- d2l(theta0, ...)
+  cnt <- 0
+  repeat{
+    cnt <- cnt +1
+    if (d2f(theta0, x) == 0) {
+      print (paste("iter = ", cnt, ", d2f = 0, change the initial values!"))
+      return (NULL)
+      break
+    }
+    theta1 <- theta0 - df(theta0,...)/d2f(theta0, ...)
+    if (((abs(theta0 -theta1)/(abs(theta0)+0.000001) <= eps))| (cnt ==10000)){
+      print(paste("iter = ", cnt, "theta0 = ", theta0,
+                  "theta1 = ", theta1,
+                  "err = ", abs(theta0-theta1)/(abs(theta1)+0.000001),
+                  "df = ", abs(df(theta1, ...))))
+      break
+    }
+    print(paste("iter = ", cnt, "theta0 = ", theta0,
+                "theta1 = ", theta1,
+                "err = ", abs(theta0-theta1)/(abs(theta1)+0.000001),
+                "df = ", abs(df(theta1, ...))))
+    
+    theta0 <- theta1
+    
+  }
+  return(theta1)
+}
+
+df <- function(theta, x){ #theta <- 0.0148500730170354
+  sum(1/tan((theta-x)/2))
+}
+
+d2f <- function(theta, x){
+  sum(1/sin((theta-x)/2)^2)
+}
+nr(df, d2f,theta0 , 0.00001, x)
+
+sol <- NULL
+theta0 <- seq(-pi, pi, length = 200)
+for(i in 1:length(theta0)){
+sol[i] <- nr(df, d2f, theta0[i], 0.000000001,x)  
+}
+
+sol
+table(round(sol,digits = 5))

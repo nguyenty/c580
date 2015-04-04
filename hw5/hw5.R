@@ -93,10 +93,3 @@ mh <- function(a, b){
   }
   
   mh(1,.1)
-  
-  c(mz = sqrt(theta2/theta1), 
-    m1z=sqrt(theta1/theta2) + 1/(2*theta2))
-  
-}
-
-mh(1,1)
